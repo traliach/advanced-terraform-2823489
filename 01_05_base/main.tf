@@ -10,7 +10,7 @@ variable "ssh_key_name" {}
 variable "private_key_path" {}
 
 variable "region" {
-  default = "us-east-2"
+  default = "us-east-1"
 }
 
 variable "vpc_cidr" {
@@ -128,11 +128,15 @@ data "aws_availability_zones" "available" {
 
 data "aws_ami" "aws-linux" {
   most_recent = true
-  owners      = ["amazon"]
 
   filter {
     name   = "name"
-    values = ["amzn-ami-hvm*"]
+    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
   }
 
   filter {
@@ -140,10 +144,7 @@ data "aws_ami" "aws-linux" {
     values = ["ebs"]
   }
 
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
+  owners = ["amazon"]
 }
 
 # //////////////////////////////
